@@ -10,3 +10,22 @@ services:
         dockerfile: deploy/app/Dockerfile
       ports:
         - "8090:8090"
+      environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      depends_on:
+        - "db"
+      expose:
+        - "8090"
+
+    db:
+      hostname: "db"
+      image: postgres:13.3
+      container_name: db
+      volumes:
+        - ./data/db:/var/lib/postgresql/data
+      ports:
+        - "15432:5432"
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
