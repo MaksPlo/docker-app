@@ -3,6 +3,7 @@ package ru.demo.dockerapp.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.demo.dockerapp.entity.Greeting;
 import ru.demo.dockerapp.repository.GreetingRepository;
@@ -10,6 +11,7 @@ import ru.demo.dockerapp.repository.GreetingRepository;
 @RestController
 @RequestMapping("/greeting")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('APP_ADMIN')")
 @Slf4j
 public class GreetingController {
 

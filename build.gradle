@@ -18,9 +18,17 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('keycloakVersion', "13.0.1")
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation "org.keycloak:keycloak-spring-boot-starter:${keycloakVersion}"
+    implementation "org.keycloak:keycloak-admin-client:${keycloakVersion}"
+    compileOnly "org.keycloak:keycloak-tomcat-adapter:${keycloakVersion}"
+    compileOnly "org.keycloak:keycloak-spring-security-adapter:${keycloakVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

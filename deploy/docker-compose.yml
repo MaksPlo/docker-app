@@ -2,19 +2,19 @@ version: "3.8"
 
 services:
 
-    app:
-      container_name: app
-      hostname: "app"
-      build:
-        context: ..
-        dockerfile: deploy/app/Dockerfile
-      ports:
-        - "8090:8090"
-      environment:
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-      depends_on:
-        - "db"
-
+#    app:
+#      container_name: app
+#      hostname: "app"
+#      build:
+#        context: ..
+#        dockerfile: deploy/app/Dockerfile
+#      ports:
+#        - "8090:8090"
+#      environment:
+#        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+#      depends_on:
+#        - "keycloak"
+#        - "db"
 
     db:
       hostname: "db"
@@ -28,3 +28,33 @@ services:
         - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
+
+    keycloak:
+      hostname: keycloak
+      image: jboss/keycloak:15.0.1
+      container_name: keycloak
+      environment:
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=admin
+        - DB_USER=keycloak
+        - DB_PASSWORD=keycloak
+        - DB_ADDR=keycloak-db
+        - DB_VENDOR=POSTGRES
+      ports:
+        - "8180:8080"
+      depends_on:
+        - "keycloak-db"
+
+
+    keycloak-db:
+      hostname: "keycloak-db"
+      image: postgres:13.3
+      container_name: keycloak-db
+      volumes:
+        - ./keycloak/db:/var/lib/postgresql/data
+      ports:
+        - "15433:5432"
+      environment:
+        - POSTGRES_DB=keycloak
+        - POSTGRES_USER=keycloak
+        - POSTGRES_PASSWORD=keycloak
