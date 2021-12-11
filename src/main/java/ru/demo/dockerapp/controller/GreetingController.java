@@ -17,16 +17,16 @@ public class GreetingController {
 
 
     @GetMapping("/{greetingId}")
-    public ResponseEntity<Long> getGreeting(@PathVariable("greetingId") long greetingId) {
+    public ResponseEntity<String> getGreeting(@PathVariable("greetingId") long greetingId) {
         log.info("get greeting with id: " + greetingId);
         Greeting greeting = repository.findById(greetingId).orElseThrow(() -> new RuntimeException("entity not found"));
-        return ResponseEntity.ok(greeting.getId());
+        return ResponseEntity.ok(greeting.getMessage());
     }
 
     @PostMapping
-    public ResponseEntity<String> createGreeting(String greetingText) {
+    public ResponseEntity<Long> createGreeting(String greetingText) {
         log.info("create greeting with test: " + greetingText);
         Greeting greeting = repository.save(Greeting.builder().message(greetingText).build());
-        return ResponseEntity.ok(greeting.getMessage());
+        return ResponseEntity.ok(greeting.getId());
     }
 }

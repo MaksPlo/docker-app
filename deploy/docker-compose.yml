@@ -14,8 +14,7 @@ services:
         - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       depends_on:
         - "db"
-      expose:
-        - "8090"
+
 
     db:
       hostname: "db"
